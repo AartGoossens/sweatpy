@@ -20,8 +20,13 @@ class WorkoutDataFrame(BaseWorkoutDataFrame):
 
     @requires(columns=['power'], athlete=['cp', 'w_prime'])
     def compute_w_prime_balance(self, algorithm=None, *args, **kwargs):
-        return w_prime_balance.w_prime_balance(self.power, self.athlete.cp,
-            self.athlete.w_prime, algorithm, *args, **kwargs)
+        return w_prime_balance.w_prime_balance(
+            power=self.power,
+            cp=self.athlete.cp,
+            w_prime=self.athlete.w_prime,
+            algorithm=algorithm,
+            *args, **kwargs
+        )
 
     @requires(columns=['power'])
     def compute_mean_max_bests(self, duration, amount):
@@ -34,7 +39,7 @@ class WorkoutDataFrame(BaseWorkoutDataFrame):
 
 class Athlete:
     def __init__(self, name=None, sex=None, weight=None, dob=None, ftp=None,
-            cp=None, w_prime=None):
+                 cp=None, w_prime=None):
         self.name = name
         self.sex = sex
         self.weight = weight

@@ -1,9 +1,7 @@
-import math
 from collections import namedtuple
 
 import numpy as np
 import pandas as pd
-from lmfit import Parameters, minimize
 
 from . import critical_power, heartrate_models, w_prime_balance
 
@@ -23,23 +21,23 @@ DataPoint = namedtuple('DataPoint', ['index', 'value'])
 def mean_max_bests(power, duration, amount):
     moving_average = power.rolling(duration).mean()
     length = len(moving_average)
-    mean_max_bests = []
+    mmp = []
 
-    for i in range(amount):
+    for _ in range(amount):
         if moving_average.isnull().all():
-            mean_max_bests.append(DataPoint(np.nan, np.nan))
+            mmp.append(DataPoint(np.nan, np.nan))
             continue
 
         max_value = moving_average.max()
         max_index = moving_average.idxmax()
-        mean_max_bests.append(DataPoint(max_index, max_value))
+        mmp.append(DataPoint(max_index, max_value))
 
         # Set moving averages that overlap with last found max to np.nan
         overlap_min_index = max(0, max_index-duration)
         overlap_max_index = min(length, max_index+duration)
         moving_average.loc[overlap_min_index:overlap_max_index] = np.nan
 
-    return pd.Series(mean_max_bests)
+    return pd.Series(mmp)
 
 
 def weighted_average_power(power):

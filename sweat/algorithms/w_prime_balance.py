@@ -32,7 +32,7 @@ def get_tau_method(power, cp, tau_dynamic, tau_value):
 
 
 def w_prime_balance_waterworth(power, cp, w_prime, tau_dynamic=False,
-        tau_value=None, *args, **kwargs):
+                               tau_value=None, *args, **kwargs):
     '''
     Optimisation of Skiba's algorithm by Dave Waterworth.
     Source:
@@ -42,7 +42,7 @@ def w_prime_balance_waterworth(power, cp, w_prime, tau_dynamic=False,
     '''
     sampling_rate = 1
     running_sum = 0
-    w_prime_balance = []
+    w_bal = []
     tau = get_tau_method(power, cp, tau_dynamic, tau_value)
 
     for t, p in enumerate(power):
@@ -51,20 +51,20 @@ def w_prime_balance_waterworth(power, cp, w_prime, tau_dynamic=False,
         running_sum = running_sum + \
             w_prime_expended*(math.e**(t*sampling_rate/tau(t)))
 
-        w_prime_balance.append(
+        w_bal.append(
             w_prime - running_sum*math.e**(-t*sampling_rate/tau(t))
         )
 
-    return pd.Series(w_prime_balance)
+    return pd.Series(w_bal)
 
 
 def w_prime_balance_skiba(power, cp, w_prime, tau_dynamic=False,
-        tau_value=None, *args, **kwargs):
+                          tau_value=None, *args, **kwargs):
     '''
     Source:
     Skiba, Philip Friere, et al. "Modeling the expenditure and reconstitution of work capacity above critical power." Medicine and science in sports and exercise 44.8 (2012): 1526-1532.
     '''
-    w_prime_balance = []
+    w_bal = []
     tau = get_tau_method(power, cp, tau_dynamic, tau_value)
 
     for t in range(len(power)):
@@ -74,9 +74,9 @@ def w_prime_balance_skiba(power, cp, w_prime, tau_dynamic=False,
             w_prime_exp = max(0, p - cp)
             w_prime_exp_sum += w_prime_exp * np.power(np.e, (u - t)/tau(t))
 
-        w_prime_balance.append(w_prime - w_prime_exp_sum)
+        w_bal.append(w_prime - w_prime_exp_sum)
 
-    return pd.Series(w_prime_balance)
+    return pd.Series(w_bal)
 
 
 def w_prime_balance_froncioni_skiba_clarke(power, cp, w_prime):
@@ -85,7 +85,7 @@ def w_prime_balance_froncioni_skiba_clarke(power, cp, w_prime):
     Skiba, P. F., Fulford, J., Clarke, D. C., Vanhatalo, A., & Jones, A. M. (2015). Intramuscular determinants of the ability to recover work capacity above critical power. European journal of applied physiology, 115(4), 703-713.
     """
     last = w_prime
-    w_prime_balance = []
+    w_bal = []
 
     for p in power:
         if p < cp:
@@ -93,10 +93,10 @@ def w_prime_balance_froncioni_skiba_clarke(power, cp, w_prime):
         else:
             new = last + (cp - p)
 
-        w_prime_balance.append(new)
+        w_bal.append(new)
         last = new
 
-    return pd.Series(w_prime_balance)
+    return pd.Series(w_bal)
 
 
 def w_prime_balance(power, cp, w_prime, algorithm=None, *args, **kwargs):

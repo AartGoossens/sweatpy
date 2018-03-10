@@ -13,7 +13,7 @@ def three_parameter_non_linear_predict(t, cp, w_prime, p_max):
 
 
 def extended_5_3_predict(t, power_anaerobic_alactic, power_anaerobic_decay,
-                     cp, tau_delay, cp_delay, cp_decay, cp_decay_delay, tau):
+                         cp, tau_delay, cp_delay, cp_decay, cp_decay_delay, tau):
     """
     Credits to Damien Grauser. Source:
     https://github.com/GoldenCheetah/GoldenCheetah/blob/master/src/Metrics/ExtendedCriticalPower.cpp
@@ -50,7 +50,7 @@ def extended_5_3_predict(t, power_anaerobic_alactic, power_anaerobic_decay,
 
 
 def extended_7_3_predict(t, power_anaerobic_alactic, power_anaerobic_decay,
-                     cp, tau_delay, cp_delay, cp_decay, cp_decay_delay, tau):
+                         cp, tau_delay, cp_delay, cp_decay, cp_decay_delay, tau):
     """
     Credits to Damien Grauser. Source:
     https://github.com/GoldenCheetah/GoldenCheetah/blob/master/src/Metrics/ExtendedCriticalPower.cpp
@@ -90,7 +90,7 @@ def model_fit(x, y, model='extended_5_3'):
     if model == '2_parameter_non_linear':
         predict_func = two_parameter_non_linear_predict
         initial_model_params = OrderedDict(
-            cp =300,
+            cp=300,
             w_prime=20000
         )
     if model == '3_parameter_non_linear':

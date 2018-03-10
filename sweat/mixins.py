@@ -5,25 +5,25 @@ from .exceptions import WorkoutDataFrameValidationException
 VALIDATION_COLUMNS = ['time', 'power', 'heartrate', 'cadence', 'speed']
 
 COLUMN_DTYPES = {
-        'time': np.int,
-        'power': np.int,
-        'heartrate': np.int,
-        'cadence': np.int,
-        'speed': np.int}
+    'time': np.int,
+    'power': np.int,
+    'heartrate': np.int,
+    'cadence': np.int,
+    'speed': np.int}
 
 COLUMN_MIN_VALUE = {
-        'time': 0,
-        'power': 0,
-        'heartrate': 0,
-        'cadence': 0,
-        'speed': 0}
+    'time': 0,
+    'power': 0,
+    'heartrate': 0,
+    'cadence': 0,
+    'speed': 0}
 
 COLUMN_MAX_VALUE = {
-        'time': np.inf,
-        'power': 3000,
-        'heartrate': 300,
-        'cadence': 300,
-        'speed': 0}
+    'time': np.inf,
+    'power': 3000,
+    'heartrate': 300,
+    'cadence': 300,
+    'speed': 0}
 
 
 class ValidationMixin(object):
@@ -36,17 +36,17 @@ class ValidationMixin(object):
         if errors:
             raise WorkoutDataFrameValidationException(errors)
         return True
-    
+
     def _validate_columns(self):
         errors = list()
         columns = set(VALIDATION_COLUMNS) & set(list(self))
 
-        for c in columns:
+        for column in columns:
             errors += self._validate_series(
-                series=self[c],
-                dtype=COLUMN_DTYPES[c], 
-                min_value=COLUMN_MIN_VALUE[c],
-                max_value=COLUMN_MAX_VALUE[c])
+                series=self[column],
+                dtype=COLUMN_DTYPES[column],
+                min_value=COLUMN_MIN_VALUE[column],
+                max_value=COLUMN_MAX_VALUE[column])
 
         return errors
 
