@@ -1,13 +1,11 @@
 import math
 from collections import namedtuple
 
-from lmfit import minimize, Parameters
 import numpy as np
 import pandas as pd
+from lmfit import Parameters, minimize
 
-from . import critical_power
-from . import heartrate_models
-from . import w_prime_balance
+from . import critical_power, heartrate_models, w_prime_balance
 
 
 def mean_max_power(power):
