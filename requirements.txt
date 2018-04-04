@@ -3,6 +3,7 @@ fitparse==1.0.1
 goldencheetahlib==0.8.0
 isort==4.2.15
 lmfit==0.9.7
+osfclient==0.0.3
 pandas==0.20.3
 pudb==2017.1.4
 pytest==3.2.5
